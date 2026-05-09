@@ -39,6 +39,14 @@
             position: relative;
         }
 
+        .invalido {
+            position: absolute;
+            right: 615px;
+            top: 324px;
+            color: #FF0000;
+            font-size: 10px;
+        }
+
         h4 {
             position: absolute;
             right: 622px;
@@ -138,14 +146,12 @@ session_start();
 
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+    
     $email = $_POST['email'];
-    $senhapura = $_POST['senha'];
-    $hash = password_hash($senhapura, PASSWORD_DEFAULT);
+    $senha = $_POST['senha'];
 
 
-
-    if(empty($email) || empty($senhapura)) {
+    if(empty($email) || empty($senha)) {
         echo "<h4>Por favor, preencha os campos obrigatórios</h4>";
     } else {
         include ('conexao.php');
@@ -156,7 +162,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $usuario = $stmt->fetch();
 
-        if($email == $usuario['email'] and $senhapura == $usuario['senha']) {
+        if($usuario && password_verify($senha, $usuario['senha'])) {
 
             $_SESSION['usuario_id']    = $usuario['id'];
             $_SESSION['usuario_email']  = $usuario['email'];
@@ -164,8 +170,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             header('Location: restrito.php');
             exit();
+
         } else {
-            echo 'E-mail ou senha inválidos. Tente novamente.';
+            echo '<h4 class="invalido">E-mail ou senha inválidos. Tente novamente.</h4>';
         }
     }
 }

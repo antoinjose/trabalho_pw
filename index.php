@@ -109,6 +109,18 @@
             display: none;
         }
 
+        p {
+            position: absolute;
+            right: 590px;
+            margin-top: 34vh;
+            font-size: 12px;
+            z-index: 99;
+        }
+        p a {
+            text-decoration: none;
+            color: #2563eb;
+        }
+
     </style>
 </head>
 <body>
@@ -119,6 +131,7 @@
         <input type="password" name="senha" placeholder="Senha"><br>
         <button type="submit" name="login" value="Login">Acessar</button><br>
     </form>
+    <p>Não possui conta? <a href="cadastrar.php">Cadastre-se</a></p>
 </body>
 <?php
 session_start();
@@ -137,7 +150,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         include ('conexao.php');
 
-        $stmt = $conn->prepare("SELECT * FROM dadoslogin WHERE email = :email LIMIT 1");
+        $stmt = $conn->prepare("SELECT * FROM dadossae WHERE email = :email LIMIT 1");
         $stmt->bindValue(':email', $email);
         $stmt->execute();
         

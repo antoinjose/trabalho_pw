@@ -1,4 +1,40 @@
+<?php
+session_start();
 
+
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+
+
+    if(empty($email) || empty($senha)) {
+        echo "<h4>Por favor, preencha os campos obrigatórios</h4>";
+    } else {
+        include ('conexao.php');
+
+        $stmt = $conn->prepare("SELECT * FROM dadossae WHERE email = :email LIMIT 1");
+        $stmt->bindValue(':email', $email);
+        $stmt->execute();
+        
+        $usuario = $stmt->fetch();
+
+        if($usuario && password_verify($senha, $usuario['senha'])) {
+
+            $_SESSION['usuario_id']    = $usuario['id'];
+            $_SESSION['usuario_email']  = $usuario['email'];
+            $_SESSION['usuario_senha'] = $usuario['senha'];
+
+            header('Location: restrito.php');
+            exit();
+
+        } else {
+            echo '<h4 class="invalido">E-mail ou senha inválidos. Tente novamente.</h4>';
+        }
+    }
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -77,6 +113,25 @@
             z-index: 99;
         }
 
+        @media (max-width: 1920px) {
+            h3 {
+            position: absolute;
+            top: 360px;
+            left: 945px;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin: 0 0 25px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 99;
+        }
+            p {
+            margin-right: 275px;
+            top: 245px;
+            font-size: 12px;
+            z-index: 99;
+        }
+}       
         input {
             width: 100%;
             padding: 12px 16px;
@@ -129,6 +184,7 @@
             color: #2563eb;
         }
 
+
     </style>
 </head>
 <body>
@@ -141,41 +197,4 @@
     </form>
     <p>Não possui conta? <a href="cadastrar.php">Cadastre-se</a></p>
 </body>
-<?php
-session_start();
-
-
-if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
-
-
-    if(empty($email) || empty($senha)) {
-        echo "<h4>Por favor, preencha os campos obrigatórios</h4>";
-    } else {
-        include ('conexao.php');
-
-        $stmt = $conn->prepare("SELECT * FROM dadossae WHERE email = :email LIMIT 1");
-        $stmt->bindValue(':email', $email);
-        $stmt->execute();
-        
-        $usuario = $stmt->fetch();
-
-        if($usuario && password_verify($senha, $usuario['senha'])) {
-
-            $_SESSION['usuario_id']    = $usuario['id'];
-            $_SESSION['usuario_email']  = $usuario['email'];
-            $_SESSION['usuario_senha'] = $usuario['senha'];
-
-            header('Location: restrito.php');
-            exit();
-
-        } else {
-            echo '<h4 class="invalido">E-mail ou senha inválidos. Tente novamente.</h4>';
-        }
-    }
-}
-
-?>
 </html>

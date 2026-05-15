@@ -1,181 +1,130 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login SAE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: #333;
-            position: relative;
+        body{
+            background-image: url('pngtree-modern-business-office-interior-background-blurred-space-for-corporate-use-contemporary-image_16359815.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
-
-        /* O formulário agora controla o alinhamento interno */
-        form {
-            position: absolute;
-            right: 70px;
-            background: #ffffff;
-            padding: 40px 30px;
-            border-radius: 16px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 380px;
-            display: flex;
-            flex-direction: column; /* Alinha os itens em coluna */
-            align-items: center;    /* Centraliza horizontalmente */
-            text-align: center;
-            box-sizing: border-box;
-            position: relative;
-        }
-
-        .invalido {
-            position: absolute;
-            right: 615px;
-            top: 324px;
-            color: #FF0000;
-            font-size: 10px;
-        }
-
-        h4 {
-            position: absolute;
-            right: 622px;
-            top: 324px;
-            color: #FF0000;
-            font-size: 10px;
-        }
-
-        h2 {
-            font-size: 1.1rem;
-            color: #e5e7eb;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-top:-450px;
-            margin-left: 105px;
-            margin-right: -312px;
-        }
-
-        h3 {
-            position: absolute;
-            top: 210px;
-            left: 669px;
-            font-size: 0.85rem;
-            color: #64748b;
-            margin: 0 0 25px 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            z-index: 99;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 16px;
-            margin-bottom: 15px; /* Espaçamento entre campos */
-            border: 1.5px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            outline: none;
-            box-sizing: border-box;
-        }
-
-        input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        button {
-            width: 100%;
-            background-color: #3b82f6;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            transition: background 0.2s;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #2563eb;
-        }
-
-        /* Anula o efeito visual dos <br> para não quebrar o layout flex */
-        br {
-            display: none;
-        }
-
-        p {
-            position: absolute;
-            right: 590px;
-            margin-top: 34vh;
-            font-size: 12px;
-            z-index: 99;
-        }
-        p a {
-            text-decoration: none;
-            color: #2563eb;
-        }
-
     </style>
 </head>
-<body>
-    <h2>SISTEMA ADMINISTRATIVO EMPRESARIAL</h2>
-    <h3>Login</h3>
-    <form action="" method='POST'>
-        <input type="text" name="email" placeholder="Email"> <br>
-        <input type="password" name="senha" placeholder="Senha"><br>
-        <button type="submit" name="login" value="Login">Acessar</button><br>
-    </form>
-    <p>Não possui conta? <a href="cadastrar.php">Cadastre-se</a></p>
-</body>
+<body class="min-h-screen flex items-center justify-center">
+
 <?php
 session_start();
 
+$erro = "";
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
-
     if(empty($email) || empty($senha)) {
-        echo "<h4>Por favor, preencha os campos obrigatórios</h4>";
+
+        $erro = "Por favor, preencha os campos obrigatórios";
+
     } else {
+
         include ('conexao.php');
 
         $stmt = $conn->prepare("SELECT * FROM dadossae WHERE email = :email LIMIT 1");
         $stmt->bindValue(':email', $email);
         $stmt->execute();
-        
+
         $usuario = $stmt->fetch();
 
         if($usuario && password_verify($senha, $usuario['senha'])) {
 
-            $_SESSION['usuario_id']    = $usuario['id'];
-            $_SESSION['usuario_email']  = $usuario['email'];
+            $_SESSION['usuario_id'] = $usuario['id'];
+            $_SESSION['usuario_email'] = $usuario['email'];
             $_SESSION['usuario_senha'] = $usuario['senha'];
 
             header('Location: restrito.php');
             exit();
 
         } else {
-            echo '<h4 class="invalido">E-mail ou senha inválidos. Tente novamente.</h4>';
+
+            $erro = "E-mail ou senha inválidos. Tente novamente.";
         }
     }
 }
-
 ?>
+
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+    <div class="relative z-10 w-full max-w-md px-8 py-10 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl">
+
+        <div class="text-center mb-8">
+           <h1 class="text-2xl md:text-3xl font-bold text-white text-center leading-tight">
+                Sistema Administrativo Empresarial
+            </h1>
+            <p class="text-gray-200 mt-2">
+                Acesse sua conta para continuar
+            </p>
+        </div>
+
+        <?php if(!empty($erro)): ?>
+            <div class="mb-5 bg-red-500/20 border border-red-400 text-red-100 p-3 rounded-xl text-center">
+                <?= $erro ?>
+            </div>
+        <?php endif; ?>
+
+        <form action="" method="POST" class="space-y-5">
+
+            <div>
+                <label class="block text-white mb-2 font-medium">
+                    Email
+                </label>
+
+                <input 
+                    type="text" 
+                    name="email" 
+                    placeholder="Digite seu email"
+                    class="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/20 outline-none focus:ring-2 focus:ring-blue-400 transition"
+                >
+            </div>
+
+            <div>
+                <label class="block text-white mb-2 font-medium">
+                    Senha
+                </label>
+
+                <input 
+                    type="password" 
+                    name="senha" 
+                    placeholder="Digite sua senha"
+                    class="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/20 outline-none focus:ring-2 focus:ring-blue-400 transition"
+                >
+            </div>
+
+            <button 
+                type="submit"
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl transition duration-300 shadow-lg hover:scale-105"
+            >
+                Acessar
+            </button>
+
+        </form>
+
+        <p class="text-center text-gray-200 mt-6">
+            Não possui conta?
+            <a 
+                href="cadastrar.php" 
+                class="text-blue-300 hover:text-blue-400 font-semibold"
+            >
+                Cadastre-se
+            </a>
+        </p>
+
+    </div>
+
+</body>
 </html>

@@ -4,148 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro SAE</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: #333;
-            position: relative;
-        }
-
-        /* Card de Cadastro */
-        form {
-            background: #ffffff;
-            padding: 40px 30px;
-            border-radius: 16px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            box-sizing: border-box;
-            /* Estilização para o texto puro (labels) dentro do form */
-            color: #64748b;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-align: left;
-            margin-right: 480px;
-            position: relative;
-        }
-
-        h4 {
-            position: absolute;
-            right: 582px;
-            top: 390px;
-            color: #FF0000;
-            font-size: 10px;
-        }
-
-        .sucesso  {
-            position: absolute;
-            right: 691px;
-            top: 390px;
-            color: #00FF00;
-            font-size: 10px;
-        }
-
-        a {
-            position: absolute;
-            right: 638px;
-            top: 485px;
-            color: #1e293b;
-            font-size: 13px;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        h2 {
-            margin-top: -450px;
-            font-size: 1.4rem;
-            color: #e5e7eb;
-            font-weight: 700;
-            text-align: center; /* Título continua centralizado */
-            width: 100%;
-            margin-left: 480px;
-            margin-right: -412px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 16px;
-            margin: 8px 0 20px 0; /* Espaço após o input */
-            border: 1.5px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            outline: none;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        button {
-            width: 100%;
-            background-color: #3b82f6;
-            color: white;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: background 0.2s;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #2563eb;
-        }
-
-        /* Remove visualmente os <br> para controle total via CSS */
-        br {
-            display: none;
+        body{
+            background-image: url('pngtree-modern-business-office-interior-background-blurred-space-for-corporate-use-contemporary-image_16359815.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
     </style>
 </head>
-<body>
-    <h2>Cadastro de Conta</h2>
-    <form action="" method='POST'>
-        Nome completo: <br>
-        <input type="text" name="nome" placeholder="Nome(nome completo)">
-        <br>
-        Email:
-        <br>
-        <input type="text" name="email" placeholder="Email">
-        <br>
-        Crie uma senha:
-        <br>
-        <input type="password" name="senha" placeholder="senha(4 dígitos)">
-        <br>
-        <button type="submit">Cadastrar</button>
-    </form>
-</body>
+<body class="min-h-screen flex items-center justify-center">
+
 <?php 
 
+$mensagem = "";
+$tipoMensagem = "";
+
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $nome = $_POST['nome'];
     $email = $_POST['email'];
-    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
+    $senhaOriginal = $_POST['senha'];
 
-    if(empty($nome) || empty($email) || empty($senha)) {
-        echo "<h4>Por favor, preencha os campos para efetuar o cadastro</h4>";
+    if(empty($nome) || empty($email) || empty($senhaOriginal)) {
+
+        $mensagem = "Preencha os campos obrigatórios";
+        $tipoMensagem = "erro";
+
     } else {
+
         include ('conexao.php');
+
+        $senha = password_hash($senhaOriginal, PASSWORD_DEFAULT);
 
         $stmt = $conn->prepare("INSERT INTO dadossae (nome, email, senha) VALUES (:nome,:email,:senha)");
         $stmt->bindValue(':nome', $nome);
@@ -153,19 +46,108 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindValue(':senha', $senha);
 
         if($stmt->execute()) {
-            echo "<h4 class='sucesso'>Conta cadastrada com sucesso!</h4>";
-            echo "<a href='index.php'>Voltar ao login</a>";
-        } else {
-            echo "Erro ao cadastrar usuário";
-        }
 
-        
+            $mensagem = "Conta cadastrada com sucesso!";
+            $tipoMensagem = "sucesso";
+
+        } else {
+
+            $mensagem = "Erro ao cadastrar usuário";
+            $tipoMensagem = "erro";
+        }
     }
 }
 
-
-
-
-
 ?>
+
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+
+    <div class="relative z-10 w-full max-w-md px-6 py-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl mx-4">
+        <div class="text-center mb-5">
+            <h1 class="text-2xl md:text-3xl font-bold text-white leading-tight">
+                Sistema Administrativo Empresarial
+            </h1>
+
+            <p class="text-gray-200 mt-3">
+                Crie sua conta para acessar o sistema
+            </p>
+        </div>
+
+        <?php if(!empty($mensagem)): ?>
+
+            <div class="mb-4 p-2 text-sm rounded-xl text-center border
+                <?= $tipoMensagem == 'sucesso' 
+                    ? 'bg-green-500/20 border-green-400 text-green-100' 
+                    : 'bg-red-500/20 border-red-400 text-red-100' ?>">
+                
+                <?= $mensagem ?>
+
+            </div>
+
+        <?php endif; ?>
+
+        <form action="" method="POST" class="space-y-3">
+
+            <div>
+                <label class="block text-white mb-2 font-medium">
+                    Nome completo
+                </label>
+
+                <input 
+                    type="text" 
+                    name="nome" 
+                    placeholder="Digite seu nome"
+                    class="w-full px-4 py-2.5 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/20 outline-none focus:ring-2 focus:ring-blue-400 transition"
+                >
+            </div>
+
+            <div>
+                <label class="block text-white mb-2 font-medium">
+                    Email
+                </label>
+
+                <input 
+                    type="text" 
+                    name="email" 
+                    placeholder="Digite seu email"
+                    class="w-full px-4 py-2.5 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/20 outline-none focus:ring-2 focus:ring-blue-400 transition"
+                >
+            </div>
+
+            <div>
+                <label class="block text-white mb-2 font-medium">
+                    Senha
+                </label>
+
+                <input 
+                    type="password" 
+                    name="senha" 
+                    placeholder="Crie uma senha"
+                    class="w-full px-4 py-2.5 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/20 outline-none focus:ring-2 focus:ring-blue-400 transition"
+                >
+            </div>
+
+            <button 
+                type="submit"
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl transition duration-300 shadow-lg hover:scale-105"
+            >
+                Cadastrar
+            </button>
+
+        </form>
+
+        <p class="text-center text-gray-200 mt-6">
+            Já possui conta?
+            <a 
+                href="index.php" 
+                class="text-blue-300 hover:text-blue-400 font-semibold"
+            >
+                Voltar ao login
+            </a>
+        </p>
+
+    </div>
+
+</body>
 </html>

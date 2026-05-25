@@ -46,6 +46,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['usuario_id'] = $usuario['id'];
             $_SESSION['usuario_email'] = $usuario['email'];
             $_SESSION['usuario_senha'] = $usuario['senha'];
+            $_SESSION['usuario_nome'] = $usuario['nome'];
+            $_SESSION['usuario_empresa'] = $usuario['empresa'];
 
             header('Location: restrito.php');
             exit();
@@ -67,7 +69,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 Sistema Administrativo Empresarial
             </h1>
             <p class="text-gray-200 mt-2">
-                Acesse sua conta para continuar
+                Acesse e administre sua empresa
             </p>
         </div>
 

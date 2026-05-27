@@ -27,7 +27,7 @@ try {
         <h2 class="text-xl font-bold text-gray-800">Quadro de Funcionários</h2>
         <p class="text-xs text-gray-500 mt-1">Gerenciamento de colaboradores registrados na empresa.</p>
     </div>
-    <a href="funcionarios/create.php" class="bg-sky-500 hover:bg-sky-600 text-white text-xs px-4 py-2.5 rounded font-semibold shadow-sm inline-flex items-center gap-2 transition">
+    <a href="createfun.php" class="bg-sky-500 hover:bg-sky-600 text-white text-xs px-4 py-2.5 rounded font-semibold shadow-sm inline-flex items-center gap-2 transition">
         <i class="fa-solid fa-user-plus text-sm"></i> Novo Funcionário
     </a>
 </div>

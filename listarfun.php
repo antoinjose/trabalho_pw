@@ -11,13 +11,15 @@
 // Garante a conexão com o banco de dados
 require_once 'conexao.php';
 
+$empresa_logada = isset($_SESSION['usuario_empresa']) ? $_SESSION['usuario_empresa'] : '';
+
 try {
-    // CORREÇÃO: Adicionadas as vírgulas na seleção dos campos da query SQL
-    $stmt = $conn->prepare("SELECT id, nome, cargo, datanasc, dataadmissao FROM funcionarios ORDER BY id DESC");
+    
+    $stmt = $conn->prepare("SELECT id, nome, cargo, datanasc, dataadmissao FROM funcionarios WHERE empresa = :empresa ORDER BY id DESC");
+    $stmt->bindValue(':empresa', $empresa_logada);
     $stmt->execute();
     $funcionarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
-    // Fallback seguro caso a tabela ainda não tenha dados (para testes de layout)
     $funcionarios = [];
 }
 ?>

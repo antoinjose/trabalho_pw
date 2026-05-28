@@ -13,13 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = "Por favor, preencha todos os campos obrigatórios.";
     } else {
         try {
+            session_start();
             include('conexao.php');
 
-            $stmt = $conn->prepare("INSERT INTO funcionarios (nome, cargo, datanasc, dataadmissao) VALUES (:nome, :cargo, :datanasc, :dataadmissao)");
+            $stmt = $conn->prepare("INSERT INTO funcionarios (nome, cargo, datanasc, dataadmissao, empresa) VALUES (:nome, :cargo, :datanasc, :dataadmissao, :empresa)");
             $stmt->bindValue(':nome', $nome);
             $stmt->bindValue(':cargo', $cargo);
             $stmt->bindValue(':datanasc', $dn);
             $stmt->bindValue(':dataadmissao', $da);
+            $stmt->bindValue(':empresa', $_SESSION['usuario_empresa']);
 
             if ($stmt->execute()) {
                 $sucesso = "Funcionário cadastrado com sucesso!";

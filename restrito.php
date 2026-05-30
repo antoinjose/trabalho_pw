@@ -86,7 +86,7 @@ if (!isset($_SESSION['usuario_email']) && !isset($_SESSION['usuario_senha'])) {
                         </div>
 
                         <div id="aba-frota" class="conteudo-aba <?= $abaAtiva == 'frota' ? 'block' : 'hidden' ?>">
-                            <p class="text-sm text-gray-500">Conteúdo do gerenciamento de frotas.</p>
+                            <?php include('listarfrota.php'); ?>
                         </div>
 
                         <div id="aba-gestao" class="conteudo-aba <?= $abaAtiva == 'gestao' ? 'block' : 'hidden' ?>">

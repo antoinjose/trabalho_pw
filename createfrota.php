@@ -4,28 +4,30 @@ $erro = "";
 $sucesso = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nome = trim($_POST['nome']);
-    $cargo = trim($_POST['cargo']);
-    $dn = $_POST['dn'];
-    $da = $_POST['da'];
+    $marca = trim($_POST['marca']);
+    $modelo = trim($_POST['modelo']);
+    $ano = $_POST['ano'];
+    $placa = $_POST['placa'];
 
-    if (empty($nome) || empty($dn) || empty($da) || empty($cargo)) {
+    if (empty($marca) || empty($modelo) || empty($ano) || empty($placa)) {
         $erro = "Por favor, preencha todos os campos obrigatórios.";
     } else {
         try {
-            session_start();
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             include('conexao.php');
 
-            $stmt = $conn->prepare("INSERT INTO funcionarios (nome, cargo, datanasc, dataadmissao, empresa) VALUES (:nome, :cargo, :datanasc, :dataadmissao, :empresa)");
-            $stmt->bindValue(':nome', $nome);
-            $stmt->bindValue(':cargo', $cargo);
-            $stmt->bindValue(':datanasc', $dn);
-            $stmt->bindValue(':dataadmissao', $da);
+            $stmt = $conn->prepare("INSERT INTO frota (marca, modelo, ano, placa, empresa) VALUES (:marca, :modelo, :ano, :placa, :empresa)");
+            $stmt->bindValue(':marca', $marca);
+            $stmt->bindValue(':modelo', $modelo);
+            $stmt->bindValue(':ano', $ano);
+            $stmt->bindValue(':placa', $placa);
             $stmt->bindValue(':empresa', $_SESSION['usuario_empresa']);
 
             if ($stmt->execute()) {
-                $sucesso = "Funcionário cadastrado com sucesso!";
-                $nome = $cargo = $dn = $da = ""; 
+                $sucesso = "Veículo cadastrado com sucesso!";
+                $marca = $modelo = $ano = $placa = ""; 
             } else {
                 $erro = "Erro ao salvar os dados no banco de dados.";
             }
@@ -40,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Funcionário</title>
+    <title>Cadastro de Veículo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -51,14 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="bg-[#1e293b] p-6 text-white flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-sky-500 rounded-lg flex items-center justify-center shadow-md">
-                    <i class="fa-solid fa-user-plus text-lg"></i>
+                    <i class="fa-solid fa-truck text-lg"></i>
                 </div>
                 <div>
-                    <h2 class="text-xl font-bold tracking-wide">Novo Colaborador</h2>
-                    <p class="text-xs text-slate-400">Preencha a ficha cadastral do funcionário</p>
+                    <h2 class="text-xl font-bold tracking-wide">Novo Veículo</h2>
+                    <p class="text-xs text-slate-400">Preencha os dados de identificação do veículo</p>
                 </div>
             </div>
-            <a href="restrito.php" class="text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-2 rounded-lg flex items-center gap-2 transition">
+            <a href="restrito.php?aba=frota" class="text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-2 rounded-lg flex items-center gap-2 transition">
                 <i class="fa-solid fa-arrow-left"></i> Voltar ao Painel
             </a>
         </div>
@@ -78,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <i class="fa-solid fa-circle-check text-base shrink-0"></i>
                         <span><?= $sucesso; ?></span>
                     </div>
-                    <a href="funcionarios/restrito.php" class="underline font-semibold hover:text-emerald-900 transition">Ver listagem &rarr;</a>
+                    <a href="../../index.php?aba=frota" class="underline font-semibold hover:text-emerald-900 transition">Ver frota &rarr;</a>
                 </div>
             <?php endif; ?>
 
@@ -86,48 +88,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 <div class="sm:col-span-2">
                     <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
-                        Nome Completo <span class="text-rose-500">*</span>
+                        Marca do Veículo <span class="text-rose-500">*</span>
                     </label>
                     <div class="relative">
-                        <input type="text" name="nome" placeholder="Ex: João da Silva" value="<?= isset($nome) ? htmlspecialchars($nome) : '' ?>" class="w-full bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-sky-500 focus:bg-white transition">
-                        <i class="fa-solid fa-user absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+                        <input type="text" name="marca" placeholder="Ex: Mercedes-Benz" value="<?= isset($marca) ? htmlspecialchars($marca) : '' ?>" class="w-full bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-sky-500 focus:bg-white transition">
+                        <i class="fa-solid fa-car absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
                     </div>
                 </div>
 
                 <div class="sm:col-span-2">
                     <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
-                        Cargo / Função <span class="text-rose-500">*</span>
+                        Modelo <span class="text-rose-500">*</span>
                     </label>
                     <div class="relative">
-                        <input type="text" name="cargo" placeholder="Ex: Motorista Operacional" value="<?= isset($cargo) ? htmlspecialchars($cargo) : '' ?>" class="w-full bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-sky-500 focus:bg-white transition">
-                        <i class="fa-solid fa-briefcase absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+                        <input type="text" name="modelo" placeholder="Ex: Corolla" value="<?= isset($modelo) ? htmlspecialchars($modelo) : '' ?>" class="w-full bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-sky-500 focus:bg-white transition">
+                        <i class="fa-solid fa-id-card absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
-                        Data de Nascimento <span class="text-rose-500">*</span>
+                        Ano <span class="text-rose-500">*</span>
                     </label>
                     <div class="relative">
-                        <input type="date" name="dn" value="<?= isset($dn) ? $dn : '' ?>" class="w-full bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-sky-500 focus:bg-white transition">
-                        <i class="fa-solid fa-cake-candles absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+                        <input type="text" name="ano" placeholder="Ex: 2021" min="1900" max="2100" value="<?= isset($ano) ? $ano : '' ?>" class="w-full bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-sky-500 focus:bg-white transition">
+                        <i class="fa-solid fa-calendar absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
-                        Data de Admissão <span class="text-rose-500">*</span>
+                        Placa <span class="text-rose-500">*</span>
                     </label>
                     <div class="relative">
-                        <input type="date" name="da" value="<?= isset($da) ? $da : '' ?>" class="w-full bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-sky-500 focus:bg-white transition">
-                        <i class="fa-solid fa-calendar-check absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+                        <input type="text" name="placa" placeholder="Ex: ABC1234" min="1900" max="2100" value="<?= isset($placa) ? $placa : '' ?>" class="w-full bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-sky-500 focus:bg-white transition">
+                        <i class="fa-solid fa-calendar-days absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
                     </div>
                 </div>
 
             </div>
 
             <div class="border-t border-gray-100 pt-6 flex justify-end gap-3">
-                <a href="../../index.php?aba=funcionarios" class="px-5 py-2.5 rounded-lg text-sm font-semibold text-gray-500 hover:bg-gray-100 transition">
+                <a href="../../index.php?aba=frota" class="px-5 py-2.5 rounded-lg text-sm font-semibold text-gray-500 hover:bg-gray-100 transition">
                     Cancelar
                 </a>
                 <button type="submit" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold text-sm px-6 py-2.5 rounded-lg shadow-md hover:shadow-lg transition flex items-center gap-2">

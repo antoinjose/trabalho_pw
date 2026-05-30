@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funcionários</title>
+    <title>Frota de Veículos</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
@@ -15,22 +15,22 @@ $empresa_logada = isset($_SESSION['usuario_empresa']) ? $_SESSION['usuario_empre
 
 try {
     
-    $stmt = $conn->prepare("SELECT id, nome, cargo, datanasc, dataadmissao FROM funcionarios WHERE empresa = :empresa ORDER BY id DESC");
+    $stmt = $conn->prepare("SELECT id, marca, modelo, ano, placa FROM frota WHERE empresa = :empresa ORDER BY id DESC");
     $stmt->bindValue(':empresa', $empresa_logada);
     $stmt->execute();
-    $funcionarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $frota = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
-    $funcionarios = [];
+    $frota = [];
 }
 ?>
 
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
     <div>
-        <h2 class="text-xl font-bold text-gray-800">Quadro de Funcionários</h2>
-        <p class="text-xs text-gray-500 mt-1">Gerenciamento de colaboradores registrados na empresa.</p>
+        <h2 class="text-xl font-bold text-gray-800">Frota de Veículos</h2>
+        <p class="text-xs text-gray-500 mt-1">Gerenciamento de veículos registrados na empresa.</p>
     </div>
-    <a href="createfun.php" class="bg-sky-500 hover:bg-sky-600 text-white text-xs px-4 py-2.5 rounded font-semibold shadow-sm inline-flex items-center gap-2 transition">
-        <i class="fa-solid fa-user-plus text-sm"></i> Novo Funcionário
+    <a href="createfrota.php" class="bg-sky-500 hover:bg-sky-600 text-white text-xs px-4 py-2.5 rounded font-semibold shadow-sm inline-flex items-center gap-2 transition">
+        <i class="fa-solid fa-user-plus text-sm"></i> Novo Veículo
     </a>
 </div>
 
@@ -39,43 +39,43 @@ try {
         <thead class="bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
             <tr>
                 <th class="px-6 py-3.5 font-bold">ID</th>
-                <th class="px-6 py-3.5">Nome Completo</th>
-                <th class="px-6 py-3.5">Cargo / Função</th>
-                <th class="px-6 py-3.5">Data Nasc.</th>
-                <th class="px-6 py-3.5">Admissão</th>
+                <th class="px-6 py-3.5">Marca</th>
+                <th class="px-6 py-3.5">Modelo</th>
+                <th class="px-6 py-3.5">Ano</th>
+                <th class="px-6 py-3.5">Placa</th>
                 <th class="px-6 py-3.5 text-center">Ações</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 text-gray-700 bg-white">
-            <?php if (!empty($funcionarios)): ?>
-                <?php foreach ($funcionarios as $func): ?>
+            <?php if (!empty($frota)): ?>
+                <?php foreach ($frota as $frot): ?>
                     <tr class="hover:bg-slate-50/80 transition duration-150">
-                        <td class="px-6 py-4 font-semibold text-gray-500">#<?= $func['id'] ?></td>
+                        <td class="px-6 py-4 font-semibold text-gray-500">#<?= $frot['id'] ?></td>
                         
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center font-bold text-xs uppercase shrink-0">
-                                    <?= substr(htmlspecialchars($func['nome']), 0, 2) ?>
+                                    <?= substr(htmlspecialchars($frot['marca']), 0, 2) ?>
                                 </div>
-                                <span class="font-medium text-gray-900"><?= htmlspecialchars($func['nome']) ?></span>
+                                <span class="font-medium text-gray-900"><?= htmlspecialchars($frot['marca']) ?></span>
                             </div>
                         </td>
                         
-                        <td class="px-6 py-4 text-gray-600"><?= htmlspecialchars($func['cargo']) ?></td>
+                        <td class="px-6 py-4 text-gray-600"><?= htmlspecialchars($frot['modelo']) ?></td>
                         
                         <td class="px-6 py-4 text-gray-500">
-                            <?= $func['datanasc'] ? date('d/m/Y', strtotime($func['datanasc'])) : '-' ?>
+                            <?= $frot['ano'] ? date('d/m/Y', strtotime($frot['ano'])) : '-' ?>
                         </td>
                         
                         <td class="px-6 py-4 text-gray-500">
-                            <?= $func['dataadmissao'] ? date('d/m/Y', strtotime($func['dataadmissao'])) : '-' ?>
+                            <?= $frot['placa'] ? date('d/m/Y', strtotime($frot['placa'])) : '-' ?>
                         </td>
                         
                         <td class="px-6 py-4 text-center space-x-3 whitespace-nowrap">
-                            <a href="updatefun.php?id=<?= $func['id'] ?>" class="text-sky-600 hover:text-sky-900 transition" title="Editar">
+                            <a href="updatefun.php?id=<?= $frot['id'] ?>" class="text-sky-600 hover:text-sky-900 transition" title="Editar">
                                 <i class="fa-solid fa-pen-to-square text-base"></i>
                             </a>
-                            <a href="deletefun.php?id=<?= $func['id'] ?>" onclick="return confirm('Tem certeza que deseja remover este funcionário?')" class="text-rose-600 hover:text-rose-900 transition" title="Excluir">
+                            <a href="deletefun.php?id=<?= $frot['id'] ?>" onclick="return confirm('Tem certeza que deseja remover este funcionário?')" class="text-rose-600 hover:text-rose-900 transition" title="Excluir">
                                 <i class="fa-solid fa-trash text-base"></i>
                             </a>
                         </td>
@@ -85,7 +85,7 @@ try {
                 <tr>
                     <td colspan="6" class="px-6 py-12 text-center text-gray-400">
                         <i class="fa-solid fa-users-slash text-3xl mb-2 block text-gray-300"></i>
-                        Nenhum funcionário cadastrado ou encontrado.
+                        Nenhum veículo cadastrado ou encontrado.
                     </td>
                 </tr>
             <?php endif; ?>

@@ -40,6 +40,9 @@ if (!isset($_SESSION['usuario_email']) && !isset($_SESSION['usuario_senha'])) {
                     </button>
                 </nav>
             </div>
+            <a href="logout.php" onclick="return confirm('Deseja realmente sair do sistema?')" class="w-full flex items-center gap-3 px-3 py-2 text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 rounded font-medium transition text-sm">
+                    <i class="fa-solid fa-right-from-bracket w-5"></i> Sair do Sistema
+                </a>
             <div class="p-4 border-t border-slate-700 text-xs text-slate-500 bg-[#0f172a] truncate">
                 <?php echo $_SESSION['usuario_empresa'], '<p>&copy;2026 SAE. Todos os direitos reservados.</p>'; ?>
             </div>
@@ -90,7 +93,7 @@ if (!isset($_SESSION['usuario_email']) && !isset($_SESSION['usuario_senha'])) {
                         </div>
 
                         <div id="aba-gestao" class="conteudo-aba <?= $abaAtiva == 'gestao' ? 'block' : 'hidden' ?>">
-                            <p class="text-sm text-gray-500">Estatísticas e relatórios de gestão administrativa.</p>
+                            <?php include('listargestao.php'); ?>
                         </div>
 
                     </div>

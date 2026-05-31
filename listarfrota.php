@@ -64,18 +64,18 @@ try {
                         <td class="px-6 py-4 text-gray-600"><?= htmlspecialchars($frot['modelo']) ?></td>
                         
                         <td class="px-6 py-4 text-gray-500">
-                            <?= $frot['ano'] ? date('d/m/Y', strtotime($frot['ano'])) : '-' ?>
+                            <?= htmlspecialchars($frot['ano']) ?>
                         </td>
                         
                         <td class="px-6 py-4 text-gray-500">
-                            <?= $frot['placa'] ? date('d/m/Y', strtotime($frot['placa'])) : '-' ?>
+                            <?= htmlspecialchars($frot['placa']) ?>
                         </td>
                         
                         <td class="px-6 py-4 text-center space-x-3 whitespace-nowrap">
-                            <a href="updatefun.php?id=<?= $frot['id'] ?>" class="text-sky-600 hover:text-sky-900 transition" title="Editar">
+                            <a href="updatefrota.php?id=<?= $frot['id'] ?>" class="text-sky-600 hover:text-sky-900 transition" title="Editar">
                                 <i class="fa-solid fa-pen-to-square text-base"></i>
                             </a>
-                            <a href="deletefun.php?id=<?= $frot['id'] ?>" onclick="return confirm('Tem certeza que deseja remover este funcionário?')" class="text-rose-600 hover:text-rose-900 transition" title="Excluir">
+                            <a href="deletefrota.php?id=<?= $frot['id'] ?>" onclick="return confirm('Tem certeza que deseja remover este veículo?')" class="text-rose-600 hover:text-rose-900 transition" title="Excluir">
                                 <i class="fa-solid fa-trash text-base"></i>
                             </a>
                         </td>

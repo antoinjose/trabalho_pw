@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <p class="text-xs text-slate-400">Atualize os dados administrativos para auditoria interna</p>
                 </div>
             </div>
-            <a href="restrito.php?aba=gestao" class="text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-2 rounded-lg flex items-center gap-2 transition">
+            <a href="../restrito.php" class="text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-2 rounded-lg flex items-center gap-2 transition">
                 <i class="fa-solid fa-arrow-left"></i> Voltar ao Painel
             </a>
         </div>

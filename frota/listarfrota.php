@@ -29,9 +29,9 @@ try {
         <h2 class="text-xl font-bold text-gray-800">Frota de Veículos</h2>
         <p class="text-xs text-gray-500 mt-1">Gerenciamento de veículos registrados na empresa.</p>
     </div>
-    <a href="createfrota.php" class="bg-sky-500 hover:bg-sky-600 text-white text-xs px-4 py-2.5 rounded font-semibold shadow-sm inline-flex items-center gap-2 transition">
-        <i class="fa-solid fa-user-plus text-sm"></i> Novo Veículo
-    </a>
+    <button onclick="abrirModal('modal-veiculo')" class="bg-sky-500 hover:bg-sky-600 text-white text-xs px-4 py-2.5 rounded font-semibold shadow-sm inline-flex items-center gap-2">
+        <i class="fa-solid fa-truck"></i> Novo Veículo
+    </button>
 </div>
 
 <div class="overflow-x-auto bg-white border border-gray-200 rounded-lg shadow-sm">
@@ -72,10 +72,10 @@ try {
                         </td>
                         
                         <td class="px-6 py-4 text-center space-x-3 whitespace-nowrap">
-                            <a href="updatefrota.php?id=<?= $frot['id'] ?>" class="text-sky-600 hover:text-sky-900 transition" title="Editar">
+                            <a href="frota/updatefrota.php?id=<?= $frot['id'] ?>" class="text-sky-600 hover:text-sky-900 transition" title="Editar">
                                 <i class="fa-solid fa-pen-to-square text-base"></i>
                             </a>
-                            <a href="deletefrota.php?id=<?= $frot['id'] ?>" onclick="return confirm('Tem certeza que deseja remover este veículo?')" class="text-rose-600 hover:text-rose-900 transition" title="Excluir">
+                            <a href="frota/deletefrota.php?id=<?= $frot['id'] ?>" onclick="return confirm('Tem certeza que deseja remover este veículo?')" class="text-rose-600 hover:text-rose-900 transition" title="Excluir">
                                 <i class="fa-solid fa-trash text-base"></i>
                             </a>
                         </td>

@@ -6,8 +6,6 @@ if (!isset($_SESSION['usuario_email']) && !isset($_SESSION['usuario_senha'])) {
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -40,12 +38,14 @@ if (!isset($_SESSION['usuario_email']) && !isset($_SESSION['usuario_senha'])) {
                     </button>
                 </nav>
             </div>
+            
             <div class="p-4 border-t border-slate-700 text-xs text-slate-500 bg-[#0f172a] truncate">
                 <?php echo $_SESSION['usuario_empresa'], '<p>&copy;2026 SAE. Todos os direitos reservados.</p>'; ?>
+                
+                <a href="logout.php" onclick="return confirm('Deseja realmente sair do sistema?')" class="w-full flex items-center gap-3 px-3 py-2 mt-3 text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 rounded font-medium transition text-sm">
+                    <i class="fa-solid fa-right-from-bracket w-5"></i> Sair do Sistema
+                </a>
             </div>
-            <a href="logout.php" onclick="return confirm('Deseja realmente sair do sistema?')" class="w-full flex items-center gap-3 px-3 py-2 text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 rounded font-medium transition text-sm">
-                <i class="fa-solid fa-right-from-bracket w-5"></i> Sair do Sistema
-            </a>
         </aside>
 
         <div class="flex-1 flex flex-col overflow-y-auto">
@@ -68,6 +68,60 @@ if (!isset($_SESSION['usuario_email']) && !isset($_SESSION['usuario_senha'])) {
 
             <main class="p-6 space-y-6">
                 
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white border border-gray-200 p-4 rounded-xl flex items-center justify-between shadow-sm">
+                        <div>
+                            <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider">Colaboradores</span>
+                            <span class="text-2xl font-black text-gray-800 mt-1 block">24</span>
+                            <span class="text-[11px] text-emerald-600 font-medium flex items-center gap-1 mt-1">
+                                <i class="fa-solid fa-arrow-up"></i> +4 este mês
+                            </span>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-500 flex items-center justify-center shadow-inner">
+                            <i class="fa-solid fa-users text-xl"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 p-4 rounded-xl flex items-center justify-between shadow-sm">
+                        <div>
+                            <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider">Frota Ativa</span>
+                            <span class="text-2xl font-black text-gray-800 mt-1 block">17</span>
+                            <span class="text-[11px] text-slate-500 font-medium flex items-center gap-1 mt-1">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> 100% operando
+                            </span>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center shadow-inner">
+                            <i class="fa-solid fa-truck text-xl"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 p-4 rounded-xl flex items-center justify-between shadow-sm">
+                        <div>
+                            <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider">Auditorias / Ano</span>
+                            <span class="text-2xl font-black text-gray-800 mt-1 block">58</span>
+                            <span class="text-[11px] text-sky-600 font-medium flex items-center gap-1 mt-1">
+                                <i class="fa-solid fa-circle-check"></i> Todas validadas
+                            </span>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-500 flex items-center justify-center shadow-inner">
+                            <i class="fa-solid fa-file-shield text-xl"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 p-4 rounded-xl flex items-center justify-between shadow-sm">
+                        <div>
+                            <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider">Desempenho Geral</span>
+                            <span class="text-2xl font-black text-gray-800 mt-1 block">95.2%</span>
+                            <div class="w-28 bg-gray-100 rounded-full h-1.5 mt-2">
+                                <div class="bg-emerald-500 h-1.5 rounded-full" style="width: 94%"></div>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center shadow-inner">
+                            <i class="fa-solid fa-chart-pie text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="bg-white rounded border border-gray-200 shadow-sm">
                     
                     <div class="flex bg-gray-50 border-b border-gray-200 rounded-t overflow-x-auto">
@@ -100,8 +154,52 @@ if (!isset($_SESSION['usuario_email']) && !isset($_SESSION['usuario_senha'])) {
                 </div>
 
             </main>
+
+    <div id="modal-funcionario" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden transition-all duration-300">
+        <div class="bg-white rounded-xl border border-gray-200 shadow-2xl w-full max-w-2xl overflow-hidden transform scale-95 transition-transform duration-300">
+            <div class="bg-[#1e293b] p-4 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-user-plus text-sky-400"></i>
+                    <span class="font-bold text-sm tracking-wide">Novo Colaborador</span>
+                </div>
+                <button onclick="fecharModal('modal-funcionario')" class="text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-6">
+                <?php include('funcionarios/createfun.php'); ?>
+            </div>
         </div>
     </div>
+
+    <div id="modal-veiculo" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden transition-all duration-300">
+        <div class="bg-white rounded-xl border border-gray-200 shadow-2xl w-full max-w-2xl overflow-hidden transform scale-95 transition-transform duration-300">
+            <div class="bg-[#1e293b] p-4 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-truck text-sky-400"></i>
+                    <span class="font-bold text-sm tracking-wide">Novo Veículo</span>
+                </div>
+                <button onclick="fecharModal('modal-veiculo')" class="text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-6">
+                <?php include('frota/createfrota.php'); ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-gestao" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden transition-all duration-300">
+        <div class="bg-white rounded-xl border border-gray-200 shadow-2xl w-full max-w-2xl overflow-hidden transform scale-95 transition-transform duration-300">
+            <div class="bg-[#1e293b] p-4 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-file-circle-plus text-sky-400"></i>
+                    <span class="font-bold text-sm tracking-wide">Novo Relatório / Balanço</span>
+                </div>
+                <button onclick="fecharModal('modal-gestao')" class="text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-6">
+                <?php include('gestao/creategestao.php'); ?>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         function mudarAba(idAba, botaoAtivo) {
@@ -119,7 +217,24 @@ if (!isset($_SESSION['usuario_email']) && !isset($_SESSION['usuario_senha'])) {
                 botaoAtivo.classList.add('border-sky-500', 'text-sky-600', 'bg-white');
             }
         }
+
+        function abrirModal(idModal) {
+            const modal = document.getElementById(idModal);
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.querySelector('.transform').classList.remove('scale-95');
+                modal.querySelector('.transform').classList.add('scale-100');
+            }, 10);
+        }
+
+        function fecharModal(idModal) {
+            const modal = document.getElementById(idModal);
+            modal.querySelector('.transform').classList.remove('scale-100');
+            modal.querySelector('.transform').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 150);
+        }
     </script>
 </body>
 </html>
-

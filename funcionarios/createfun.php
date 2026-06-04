@@ -35,33 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Funcionário</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-[#f4f6f9] font-sans antialiased min-h-screen flex items-center justify-center p-4 sm:p-6">
 
-    <div class="w-full max-w-2xl bg-white rounded-xl border border-gray-200 shadow-xl overflow-hidden">
-        
-        <div class="bg-[#1e293b] p-6 text-white flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-sky-500 rounded-lg flex items-center justify-center shadow-md">
-                    <i class="fa-solid fa-user-plus text-lg"></i>
-                </div>
-                <div>
-                    <h2 class="text-xl font-bold tracking-wide">Novo Colaborador</h2>
-                    <p class="text-xs text-slate-400">Preencha a ficha cadastral do funcionário</p>
-                </div>
-            </div>
-            <a href="restrito.php" class="text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-2 rounded-lg flex items-center gap-2 transition">
-                <i class="fa-solid fa-arrow-left"></i> Voltar ao Painel
-            </a>
-        </div>
 
         <form action="" method="POST" class="p-6 sm:p-8 space-y-6">
             
@@ -136,7 +110,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
         </form>
-    </div>
-
-</body>
-</html>

@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <i class="fa-solid fa-circle-check text-base shrink-0"></i>
                         <span><?= $sucesso; ?></span>
                     </div>
-                    <a href="funcionarios/restrito.php" class="underline font-semibold hover:text-emerald-900 transition">Ver listagem &rarr;</a>
+                    <a href="../restrito.php" class="underline font-semibold hover:text-emerald-900 transition">Ver listagem &rarr;</a>
                 </div>
             <?php endif; ?>
 

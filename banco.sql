@@ -1,0 +1,44 @@
+
+CREATE DATABASE IF NOT EXISTS `sistemasae` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `sistemasae`;
+
+CREATE TABLE IF NOT EXISTS `dadossae` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `senha` VARCHAR(255) NOT NULL,
+  `empresa` VARCHAR(255) DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_unique` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `frota` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `marca` VARCHAR(255) NOT NULL,
+  `modelo` VARCHAR(255) NOT NULL,
+  `ano` YEAR NOT NULL,
+  `placa` VARCHAR(20) NOT NULL,
+  `empresa` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `funcionarios` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(255) NOT NULL,
+  `cargo` VARCHAR(255) NOT NULL,
+  `datanasc` DATE NOT NULL,
+  `dataadmissao` DATE NOT NULL,
+  `empresa` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `gestao` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `titulo` VARCHAR(255) NOT NULL,
+  `tipo` VARCHAR(100) NOT NULL,
+  `data_registro` DATE NOT NULL,
+  `valor` DECIMAL(15,2) NOT NULL DEFAULT 0.00,
+  `status` VARCHAR(50) NOT NULL,
+  `empresa` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

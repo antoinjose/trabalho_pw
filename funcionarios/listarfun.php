@@ -29,9 +29,9 @@ try {
         <h2 class="text-xl font-bold text-gray-800">Quadro de Funcionários</h2>
         <p class="text-xs text-gray-500 mt-1">Gerenciamento de colaboradores registrados na empresa.</p>
     </div>
-    <button onclick="abrirModal('modal-funcionario')" class="bg-sky-500 hover:bg-sky-600 text-white text-xs px-4 py-2.5 rounded font-semibold shadow-sm inline-flex items-center gap-2">
+    <a href="funcionarios/createfun.php" class="bg-sky-500 hover:bg-sky-600 text-white text-xs px-4 py-2.5 rounded font-semibold shadow-sm inline-flex items-center gap-2">
         <i class="fa-solid fa-user-plus"></i> Novo Colaborador
-    </button>
+    </a>
 </div>
 
 <div class="overflow-x-auto bg-white border border-gray-200 rounded-lg shadow-sm">
@@ -72,9 +72,9 @@ try {
                         </td>
                         
                         <td class="px-6 py-4 text-center space-x-3 whitespace-nowrap">
-                            <a href="funcionarios/updatefun.php?id=<?= $func['id'] ?>" class="text-sky-600 hover:text-sky-900 transition" title="Editar">
-                                <i class="fa-solid fa-pen-to-square text-base"></i>
-                            </a>
+                        <a href="funcionarios/updatefun.php?id=<?= $func['id'] ?>" class="text-sky-600 hover:text-sky-900 transition">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
                             <a href="funcionarios/deletefun.php?id=<?= $func['id'] ?>" onclick="return confirm('Tem certeza que deseja remover este funcionário?')" class="text-rose-600 hover:text-rose-900 transition" title="Excluir">
                                 <i class="fa-solid fa-trash text-base"></i>
                             </a>

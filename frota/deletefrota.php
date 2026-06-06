@@ -22,7 +22,7 @@
         <div class="text-sm text-gray-600 mt-3 mb-8 bg-slate-50 p-4 rounded-lg border border-gray-100 font-medium">
             <?php
             $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-            include ('conexao.php');
+            include ('../conexao.php');
 
             $stmt = $conn->prepare("DELETE FROM frota WHERE id = :id");
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -33,7 +33,7 @@
             ?>
         </div>
 
-        <a href="restrito.php?aba=frota" class="w-full bg-[#1e293b] hover:bg-[#0f172a] text-white font-semibold text-sm py-3 px-4 rounded-lg shadow-md transition flex items-center justify-center gap-2">
+        <a href="../restrito.php" class="w-full bg-[#1e293b] hover:bg-[#0f172a] text-white font-semibold text-sm py-3 px-4 rounded-lg shadow-md transition flex items-center justify-center gap-2">
             <i class="fa-solid fa-arrow-left"></i> Voltar para o Painel
         </a>
 

@@ -69,9 +69,9 @@ try {
         <h2 class="text-xl font-bold text-gray-800">Relatórios & Auditoria</h2>
         <p class="text-xs text-gray-500 mt-1">Crie balanços, acompanhe fluxos e gerencie a documentação administrativa.</p>
     </div>
-    <button onclick="abrirModal('modal-gestao')" class="bg-sky-500 hover:bg-sky-600 text-white text-xs px-4 py-2.5 rounded font-semibold shadow-sm inline-flex items-center gap-2">
+    <a href="gestao/creategestao.php" class="bg-sky-500 hover:bg-sky-600 text-white text-xs px-4 py-2.5 rounded font-semibold shadow-sm inline-flex items-center gap-2">
         <i class="fa-solid fa-file-circle-plus"></i> Novo Relatório
-    </button>
+    </a>
 </div>
 
 <div class="overflow-x-auto bg-white border border-gray-200 rounded-lg shadow-sm">

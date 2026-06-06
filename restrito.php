@@ -4,6 +4,41 @@ if (!isset($_SESSION['usuario_email']) && !isset($_SESSION['usuario_senha'])) {
     header('Location: index.php');
     exit();
 }
+
+require_once 'conexao.php'; 
+
+
+$modal_abrir = "";
+$dados_editar = [];
+
+
+if (isset($_GET['editar_id']) && isset($_GET['tipo'])) {
+    $edit_id = intval($_GET['editar_id']);
+    $tipo_edit = $_GET['tipo'];
+    $empresa = $_SESSION['usuario_empresa'];
+
+    try {
+        if ($tipo_edit === 'funcionario') {
+            $stmt = $conn->prepare("SELECT * FROM funcionarios WHERE id = :id AND empresa = :empresa");
+            $modal_abrir = "modal-editar-funcionario";
+        } elseif ($tipo_edit === 'frota') {
+            $stmt = $conn->prepare("SELECT * FROM frota WHERE id = :id AND empresa = :empresa");
+            $modal_abrir = "modal-editar-frota";
+        } elseif ($tipo_edit === 'gestao') {
+            $stmt = $conn->prepare("SELECT * FROM gestao WHERE id = :id AND empresa = :empresa");
+            $modal_abrir = "modal-editar-gestao";
+        }
+
+        if (!empty($modal_abrir)) {
+            $stmt->bindValue(':id', $edit_id);
+            $stmt->bindValue(':empresa', $empresa);
+            $stmt->execute();
+            $dados_editar = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+    } catch (Exception $e) {
+        
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -153,54 +188,7 @@ if (!isset($_SESSION['usuario_email']) && !isset($_SESSION['usuario_senha'])) {
                     </div>
                 </div>
 
-            </main>
-
-    <div id="modal-funcionario" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden transition-all duration-300">
-        <div class="bg-white rounded-xl border border-gray-200 shadow-2xl w-full max-w-2xl overflow-hidden transform scale-95 transition-transform duration-300">
-            <div class="bg-[#1e293b] p-4 text-white flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-user-plus text-sky-400"></i>
-                    <span class="font-bold text-sm tracking-wide">Novo Colaborador</span>
-                </div>
-                <button onclick="fecharModal('modal-funcionario')" class="text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <div class="p-6">
-                <?php include('funcionarios/createfun.php'); ?>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-veiculo" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden transition-all duration-300">
-        <div class="bg-white rounded-xl border border-gray-200 shadow-2xl w-full max-w-2xl overflow-hidden transform scale-95 transition-transform duration-300">
-            <div class="bg-[#1e293b] p-4 text-white flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-truck text-sky-400"></i>
-                    <span class="font-bold text-sm tracking-wide">Novo Veículo</span>
-                </div>
-                <button onclick="fecharModal('modal-veiculo')" class="text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <div class="p-6">
-                <?php include('frota/createfrota.php'); ?>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-gestao" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden transition-all duration-300">
-        <div class="bg-white rounded-xl border border-gray-200 shadow-2xl w-full max-w-2xl overflow-hidden transform scale-95 transition-transform duration-300">
-            <div class="bg-[#1e293b] p-4 text-white flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-file-circle-plus text-sky-400"></i>
-                    <span class="font-bold text-sm tracking-wide">Novo Relatório / Balanço</span>
-                </div>
-                <button onclick="fecharModal('modal-gestao')" class="text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <div class="p-6">
-                <?php include('gestao/creategestao.php'); ?>
-            </div>
-        </div>
-    </div>
-
-
+            </main>       
     <script>
         function mudarAba(idAba, botaoAtivo) {
             document.querySelectorAll('.conteudo-aba').forEach(c => { c.classList.remove('block'); c.classList.add('hidden'); });
@@ -208,32 +196,14 @@ if (!isset($_SESSION['usuario_email']) && !isset($_SESSION['usuario_senha'])) {
             document.getElementById(idAba).classList.add('block');
 
             document.querySelectorAll('.btn-aba').forEach(b => {
-                b.classList.remove('border-sky-500', 'text-sky-600', 'bg-white');
-                b.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-800');
+            b.classList.remove('border-sky-500', 'text-sky-600', 'bg-white');
+            b.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-800');
             });
 
             if(botaoAtivo.classList.contains('btn-aba')) {
                 botaoAtivo.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-800');
                 botaoAtivo.classList.add('border-sky-500', 'text-sky-600', 'bg-white');
             }
-        }
-
-        function abrirModal(idModal) {
-            const modal = document.getElementById(idModal);
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.querySelector('.transform').classList.remove('scale-95');
-                modal.querySelector('.transform').classList.add('scale-100');
-            }, 10);
-        }
-
-        function fecharModal(idModal) {
-            const modal = document.getElementById(idModal);
-            modal.querySelector('.transform').classList.remove('scale-100');
-            modal.querySelector('.transform').classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 150);
         }
     </script>
 </body>

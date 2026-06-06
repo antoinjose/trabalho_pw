@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if (!isset($_SESSION['usuario_email']) && !isset($_SESSION['usuario_senha'])) {
+    header('Location: ../index.php');
+    exit();
+}
 $erro = "";
 $sucesso = "";
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -17,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
-            include('conexao.php');
+            include('../conexao.php');
 
             $stmt = $conn->prepare("UPDATE frota SET marca=:marca, modelo=:modelo, ano=:ano, placa=:placa WHERE id = :id");
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);

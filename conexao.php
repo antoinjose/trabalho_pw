@@ -1,10 +1,10 @@
 <?php
 
-$username = "root";
-$password = "";
+$username = "admin";
+$password = "1234";
 
 
-$conn = new PDO('mysql:host=localhost;dbname=sistemasae', $username, $password);
+$conn = new PDO('mysql:host=db;dbname=sistemasae', $username, $password);
 
 ?>
 

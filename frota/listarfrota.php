@@ -23,7 +23,6 @@ try {
     $frota = [];
 }
 ?>
-
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
     <div>
         <h2 class="text-xl font-bold text-gray-800">Frota de Veículos</h2>

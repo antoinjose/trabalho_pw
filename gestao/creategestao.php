@@ -40,9 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -72,7 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </a>
         </div>
     <form action="" method="POST" class="p-6 sm:p-8 space-y-6">
-            
             <?php if (!empty($erro)): ?>
                 <div class="bg-rose-50 border border-rose-200 text-rose-700 p-4 rounded-lg flex items-center gap-3 text-sm">
                     <i class="fa-solid fa-triangle-exclamation text-base shrink-0"></i>
@@ -159,7 +155,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
 </body>
 </html>
-
-
-
-        

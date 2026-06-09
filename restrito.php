@@ -40,7 +40,6 @@ if (isset($_GET['editar_id']) && isset($_GET['tipo'])) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>

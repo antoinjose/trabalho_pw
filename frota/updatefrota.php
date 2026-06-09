@@ -18,9 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = "Por favor, preencha todos os campos obrigatórios.";
     } else {
         try {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
+
             include('../conexao.php');
 
             $stmt = $conn->prepare("UPDATE frota SET marca=:marca, modelo=:modelo, ano=:ano, placa=:placa WHERE id = :id");

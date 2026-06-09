@@ -18,9 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = "Por favor, preencha todos os campos obrigatórios.";
     } else {
         try {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
             include('../conexao.php');
 
             $stmt = $conn->prepare("INSERT INTO gestao (titulo, tipo, data_registro, valor, status, empresa) VALUES (:titulo, :tipo, :data_registro, :valor, :status, :empresa)");

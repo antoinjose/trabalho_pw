@@ -18,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = "Por favor, preencha todos os campos obrigatórios.";
     } else {
         try {
-            session_start();
             include('../conexao.php');
 
             $stmt = $conn->prepare("UPDATE funcionarios SET nome=:nome, cargo=:cargo, datanasc=:datanasc, dataadmissao=:dataadmissao WHERE id = :id");

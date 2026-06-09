@@ -17,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = "Por favor, preencha todos os campos obrigatórios.";
     } else {
         try {
-            session_start();
             include('../conexao.php');
 
             $stmt = $conn->prepare("INSERT INTO funcionarios (nome, cargo, datanasc, dataadmissao, empresa) VALUES (:nome, :cargo, :datanasc, :dataadmissao, :empresa)");
